@@ -155,12 +155,14 @@ const App: React.FC = () => {
             transform: `rotateY(${mousePos.x}deg) rotateX(${-mousePos.y}deg)`
           }}
         >
-          <main className="container mx-auto px-4 pt-32 pb-12 relative z-10">
-            <section id="hero" className="mb-48">
+          {/* Compact spacing for mobile desktop mode - Windows-like layout */}
+          <main className="container mx-auto px-4 pt-12 sm:pt-16 md:pt-28 lg:pt-32 pb-12 relative z-10">
+            <section id="hero" className="mb-16 sm:mb-24 md:mb-32 lg:mb-48">
               <Hero onContactOpen={openContact} />
             </section>
 
-            <div className="space-y-48">
+            {/* Compact spacing for mobile desktop mode, more space on larger screens */}
+            <div className="space-y-16 sm:space-y-24 md:space-y-32 lg:space-y-48">
               <section id="about" className="scroll-mt-32"><AboutMe /></section>
               <section id="skills" className="scroll-mt-32"><SkillsMatrix /></section>
               <section id="projects" className="scroll-mt-32"><ProjectsGrid /></section>
