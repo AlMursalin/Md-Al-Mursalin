@@ -78,19 +78,20 @@ export const Hero: React.FC<HeroProps> = ({ onContactOpen }) => {
       setCursorVisible(v => !v);
     }, 500);
 
-    const handleMouseMove = (e: MouseEvent) => {
+    // Use pointer events so the 3D animation works on both mouse and touch devices
+    const handlePointerMove = (e: PointerEvent) => {
       setMousePos({
         x: (e.clientX / window.innerWidth - 0.5) * 15,
         y: (e.clientY / window.innerHeight - 0.5) * 15
       });
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('pointermove', handlePointerMove);
 
     return () => {
       clearInterval(interval);
       clearInterval(cursorInterval);
-      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('pointermove', handlePointerMove);
       window.removeEventListener('storage', loadPhoto);
       window.removeEventListener('identity_update', handleCustomUpdate as any);
     };

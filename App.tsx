@@ -83,13 +83,14 @@ const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
+    // Use pointer events so the parallax reacts to both mouse and touch
+    const handlePointerMove = (e: PointerEvent) => {
       const x = (e.clientX / window.innerWidth - 0.5) * 5;
       const y = (e.clientY / window.innerHeight - 0.5) * 5;
       setMousePos({ x, y });
     };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    window.addEventListener('pointermove', handlePointerMove);
+    return () => window.removeEventListener('pointermove', handlePointerMove);
   }, []);
 
   const handleAdminAuthTrigger = () => {
