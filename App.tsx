@@ -26,6 +26,18 @@ const App: React.FC = () => {
   
   const currentSessionId = useRef<string | null>(null);
 
+  // Helper to normalize device name from userAgent so Admin console
+  // and header show consistent labels (and mobile devices are detected properly).
+  const detectDevice = (ua: string): string => {
+    const uaLower = ua.toLowerCase();
+    if (uaLower.includes('android')) return 'Android Mobile';
+    if (uaLower.includes('iphone') || uaLower.includes('ipad') || uaLower.includes('ipod')) return 'iOS Device';
+    if (uaLower.includes('windows')) return 'Windows PC';
+    if (uaLower.includes('mac os') || uaLower.includes('macintosh')) return 'Macintosh';
+    if (uaLower.includes('linux')) return 'Linux Terminal';
+    return 'Unknown Device';
+  };
+
   // Visitor Tracking
   useEffect(() => {
     const logVisit = async () => {
@@ -38,12 +50,16 @@ const App: React.FC = () => {
         }
       } catch (e) {}
 
+      const ua = navigator.userAgent;
+      const deviceLabel = detectDevice(ua);
+
       const sessionId = `node-${Math.random().toString(36).substr(2, 9)}`;
       const newVisitor: Visitor = {
         id: sessionId,
         timestamp: new Date().toISOString(),
         ip: ip,
-        userAgent: navigator.userAgent,
+        userAgent: ua,
+        deviceLabel,
         duration: '0s',
         sessionCount: 1
       };

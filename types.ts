@@ -25,6 +25,8 @@ export interface Visitor {
   timestamp: string;
   ip: string;
   userAgent: string;
+  // Friendly device label derived from userAgent (e.g., "Android Mobile", "Windows PC")
+  deviceLabel?: string;
   notes?: string;
   duration?: string; // Formatted duration string (e.g., "2m 15s")
   sessionCount: number;

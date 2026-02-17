@@ -21,6 +21,19 @@ export const AdminConsole: React.FC<{ isOpen: boolean; onClose: () => void }> = 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const previewImgRef = useRef<HTMLImageElement>(null);
 
+  // Local helper to derive a device label from userAgent for older logs
+  // that might not have deviceLabel stored yet.
+  const getDeviceLabel = (visitor: Visitor): string => {
+    if (visitor.deviceLabel) return visitor.deviceLabel;
+    const ua = visitor.userAgent.toLowerCase();
+    if (ua.includes('android')) return 'Android Mobile';
+    if (ua.includes('iphone') || ua.includes('ipad') || ua.includes('ipod')) return 'iOS Device';
+    if (ua.includes('windows')) return 'Windows PC';
+    if (ua.includes('mac os') || ua.includes('macintosh')) return 'Macintosh';
+    if (ua.includes('linux')) return 'Linux Terminal';
+    return 'Unknown Device';
+  };
+
   const loadLogs = () => {
     const data = localStorage.getItem('visitor_logs');
     if (data) setVisitors(JSON.parse(data));
@@ -168,11 +181,15 @@ export const AdminConsole: React.FC<{ isOpen: boolean; onClose: () => void }> = 
     downloadAnchorNode.remove();
   };
 
-  const filteredVisitors = visitors.filter(v => 
-    v.ip.includes(searchTerm) || 
-    v.userAgent.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    (v.notes && v.notes.toLowerCase().includes(searchTerm.toLowerCase()))
-  );
+  const filteredVisitors = visitors.filter(v => {
+    const query = searchTerm.toLowerCase();
+    return (
+      v.ip.includes(searchTerm) ||
+      v.userAgent.toLowerCase().includes(query) ||
+      getDeviceLabel(v).toLowerCase().includes(query) ||
+      (v.notes && v.notes.toLowerCase().includes(query))
+    );
+  });
 
   if (!isOpen) return null;
 
@@ -249,7 +266,7 @@ export const AdminConsole: React.FC<{ isOpen: boolean; onClose: () => void }> = 
                       <div className="col-span-2">Inbound_Timestamp</div>
                       <div className="col-span-1">Duration</div>
                       <div className="col-span-2">IP_Address</div>
-                      <div className="col-span-3">Hardware_Fingerprint</div>
+                      <div className="col-span-3">Device_Node</div>
                       <div className="col-span-3">Admin_Notes</div>
                       <div className="col-span-1 text-right">Ops</div>
                    </div>
@@ -272,8 +289,11 @@ export const AdminConsole: React.FC<{ isOpen: boolean; onClose: () => void }> = 
                            </span>
                         </div>
                         <div className="col-span-3">
-                           <div className="text-[9px] text-gray-500 mono leading-tight line-clamp-2 uppercase italic">
-                              {v.userAgent}
+                           <div className="text-[9px] text-cyan-400 mono leading-tight uppercase">
+                             <div className="font-bold">{getDeviceLabel(v)}</div>
+                             <div className="text-[8px] text-gray-500 normal-case break-all mt-1">
+                               {v.userAgent}
+                             </div>
                            </div>
                         </div>
                         <div className="col-span-3">
