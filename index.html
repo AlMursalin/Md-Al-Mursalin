@@ -1,0 +1,123 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Md Al Mursalin's | Cyber Command Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #050505;
+            color: #e0e0e0;
+            overflow-x: hidden;
+            perspective: 1500px;
+        }
+        .mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .cyan-glow {
+            text-shadow: 0 0 15px rgba(0, 243, 255, 0.8);
+        }
+        .glass-panel {
+            background: rgba(10, 10, 10, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 243, 255, 0.1);
+            transform-style: preserve-3d;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .glass-panel:hover {
+            box-shadow: 0 20px 50px rgba(0, 243, 255, 0.15);
+        }
+        .three-d-card {
+            transform-style: preserve-3d;
+        }
+        .three-d-card > * {
+            transform: translateZ(20px);
+        }
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+        .scanline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent 0%, rgba(0, 243, 255, 0.03) 50%, transparent 100%);
+            animation: scanline 8s linear infinite;
+            pointer-events: none;
+            z-index: 50;
+        }
+        
+        /* Local Protocol Error Styles */
+        #protocol-error {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: #050505;
+            z-index: 9999;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+        }
+        .error-terminal {
+            max-width: 600px;
+            width: 100%;
+            background: #000;
+            border: 2px solid #ef4444;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 0 50px rgba(239, 68, 68, 0.2);
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "lucide-react": "https://esm.sh/lucide-react@^0.563.0",
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "react": "https://esm.sh/react@^19.2.4",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "react-dom": "https://esm.sh/react-dom@^19.2.4"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body>
+    <div id="protocol-error">
+        <div class="error-terminal mono">
+            <h1 class="text-red-500 font-black text-2xl mb-4 uppercase tracking-tighter">[!] PROTOCOL_ERROR: INSECURE_FILE_SYSTEM</h1>
+            <p class="text-gray-400 mb-6 text-sm">Browsers block ES6 modules when opened directly via "file://". To establish a secure operational link, you must serve this application through a local web server.</p>
+            <div class="bg-gray-900 p-4 rounded text-left text-xs mb-6 border border-gray-800">
+                <p class="text-green-500 mb-2">// RECOMMENDED ACTION:</p>
+                <p class="text-white">1. Use VS Code extension <span class="text-cyan-400">"Live Server"</span></p>
+                <p class="text-white">2. Or run <span class="text-cyan-400">"npx serve"</span> in the terminal</p>
+                <p class="text-white">3. Access via <span class="text-cyan-400">http://localhost:5000</span></p>
+            </div>
+            <p class="text-red-500/50 text-[10px] uppercase font-bold tracking-widest animate-pulse">Waiting for secure connection...</p>
+        </div>
+    </div>
+
+    <div id="root"></div>
+
+    <script>
+        // Check protocol on load
+        if (window.location.protocol === 'file:') {
+            document.getElementById('protocol-error').style.display = 'flex';
+        }
+    </script>
+    
+    <div class="scanline"></div>
+    <!-- Entry point for the application -->
+    <script type="module" src="./index.tsx"></script>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
