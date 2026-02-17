@@ -9,13 +9,22 @@ interface Props {
 }
 
 export const TerminalHeader: React.FC<Props> = ({ activeTab, onTabChange, onAdminClick, isAdmin }) => {
-  const [currentTime, setCurrentTime] = useState(new Date().toLocaleTimeString());
+  // Show local time in 12-hour format (HH:MM:SS AM/PM)
+  const getFormattedTime = () =>
+    new Date().toLocaleTimeString(undefined, {
+      hour12: true,
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    });
+
+  const [currentTime, setCurrentTime] = useState(getFormattedTime());
   const [device, setDevice] = useState('DETECTING...');
 
   useEffect(() => {
-    // Clock update
+    // Clock update (local 24h time)
     const timer = setInterval(() => {
-      setCurrentTime(new Date().toLocaleTimeString());
+      setCurrentTime(getFormattedTime());
     }, 1000);
 
     // Device Detection
