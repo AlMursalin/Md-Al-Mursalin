@@ -111,11 +111,13 @@ export const TerminalHeader: React.FC<Props> = ({ activeTab, onTabChange, onAdmi
           ))}
         </nav>
 
-        <div className="flex items-center space-x-4 mono text-[10px] md:text-xs">
+        {/* Right side: admin button + device + live time.
+            Optimised so device + live time are always visible on mobile. */}
+        <div className="flex items-center gap-3 mono text-[9px] sm:text-[10px] md:text-xs">
           {/* Admin Login Button */}
           <button 
             onClick={onAdminClick}
-            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border mono font-bold uppercase tracking-widest transition-all ${
+            className={`flex items-center gap-1 sm:gap-2 px-2.5 sm:px-3 py-1.5 rounded-lg border mono font-bold uppercase tracking-widest transition-all ${
               isAdmin 
                 ? 'bg-red-500/20 border-red-500/50 text-red-500 shadow-[0_0_15px_rgba(239,68,68,0.2)] hover:bg-red-500/30' 
                 : 'bg-cyan-500/10 border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/20'
@@ -125,15 +127,18 @@ export const TerminalHeader: React.FC<Props> = ({ activeTab, onTabChange, onAdmi
             <span className="hidden sm:inline">{isAdmin ? 'ADMIN_OPEN' : 'LOG_IN'}</span>
           </button>
 
-          <div className="hidden lg:flex flex-col items-end border-r border-cyan-900/50 pr-4 leading-tight">
-            <span className="text-gray-500 uppercase">SYS_NODE</span>
-            <span className="text-cyan-400 font-bold">{device}</span>
-          </div>
-          <div className="flex flex-col items-end leading-tight min-w-[80px]">
-            <span className="text-gray-500 uppercase flex items-center">
-              <Activity size={10} className="mr-1 animate-pulse text-green-500" /> LIVE_TIME
-            </span>
-            <span className="text-white font-bold">{currentTime}</span>
+          {/* Device + time stack vertically on small screens */}
+          <div className="flex items-end gap-2 sm:gap-4 border-l border-cyan-900/50 pl-3 leading-tight">
+            <div className="flex flex-col items-start sm:items-end">
+              <span className="text-gray-500 uppercase">SYS_NODE</span>
+              <span className="text-cyan-400 font-bold max-w-[120px] truncate">{device}</span>
+            </div>
+            <div className="flex flex-col items-end min-w-[80px]">
+              <span className="text-gray-500 uppercase flex items-center">
+                <Activity size={10} className="mr-1 animate-pulse text-green-500" /> LIVE_TIME
+              </span>
+              <span className="text-white font-bold">{currentTime}</span>
+            </div>
           </div>
         </div>
       </div>
