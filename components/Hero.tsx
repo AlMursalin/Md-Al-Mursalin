@@ -45,7 +45,8 @@ export const Hero: React.FC<HeroProps> = ({ onContactOpen }) => {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isRevealed, setIsRevealed] = useState(false);
   const [isDecrypting, setIsDecrypting] = useState(false);
-  const [operatorPhoto, setOperatorPhoto] = useState("https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?auto=format&fit=crop&q=80&w=1000");
+  // Default operator photo – replace /profile.jpg with your own image path in the public folder
+  const [operatorPhoto, setOperatorPhoto] = useState("/profile.jpg");
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
