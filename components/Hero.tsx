@@ -118,7 +118,9 @@ export const Hero: React.FC<HeroProps> = ({ onContactOpen }) => {
   return (
     <div 
       ref={containerRef}
-      className="relative grid lg:grid-cols-[100px_1fr_1fr] gap-8 items-center min-h-[75vh] py-12"
+      // On smaller widths (including mobile “desktop mode”), keep a single column
+      // so the identity frame doesn’t get cut off. Two-column layout only on xl+.
+      className="relative grid gap-8 items-center min-h-[75vh] py-12 xl:grid-cols-[100px_1fr_1fr]"
       style={{ transformStyle: 'preserve-3d' }}
     >
       {/* Left Data Gaphs (Diagnostic Stream) */}
