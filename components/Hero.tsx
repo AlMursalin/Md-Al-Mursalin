@@ -97,11 +97,9 @@ export const Hero: React.FC<HeroProps> = ({ onContactOpen }) => {
     };
   }, []);
 
-  const handleReveal = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
+  // Smooth identity reveal / close for both desktop and mobile (single click / tap)
+  const triggerReveal = () => {
     if (isRevealed || isDecrypting) return;
-    
     setIsDecrypting(true);
     setTimeout(() => {
       setIsDecrypting(false);
@@ -109,7 +107,13 @@ export const Hero: React.FC<HeroProps> = ({ onContactOpen }) => {
     }, 800);
   };
 
-  const handleCloseIdentity = (e: React.MouseEvent) => {
+  const handleReveal = (e: React.MouseEvent | React.TouchEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    triggerReveal();
+  };
+
+  const handleCloseIdentity = (e: React.MouseEvent | React.TouchEvent) => {
     e.preventDefault();
     e.stopPropagation(); 
     setIsRevealed(false);
@@ -198,21 +202,17 @@ export const Hero: React.FC<HeroProps> = ({ onContactOpen }) => {
           <p className="text-gray-400 text-base leading-relaxed border-l-2 border-cyan-500/40 pl-5 py-1">
             I am a hardworking, quick-to-learn individual passionate about solving technical problems through real-world experience and industry-standard software development life cycles.
           </p>
-
-          <p className="mono text-xs md:text-sm font-black uppercase tracking-[0.25em] text-cyan-500/80">
-            I build. I break. I secure. <br />
-            <span className="text-white text-lg md:text-xl tracking-normal normal-case">Developing high-integrity systems from Dhaka Cantonment.</span>
-          </p>
         </div>
 
-        <div className="flex flex-wrap gap-6 pt-6">
+        <div className="flex flex-wrap gap-4 sm:gap-6 pt-6">
           <button 
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
               onContactOpen();
             }}
-            className="px-10 py-5 bg-cyan-500 text-black font-black uppercase tracking-widest hover:bg-cyan-400 transition-all hover:scale-105 active:scale-95 mono shadow-[0_0_40px_rgba(0,243,255,0.4)] group relative overflow-hidden z-50 cursor-pointer pointer-events-auto"
+            type="button"
+            className="px-8 sm:px-10 py-4 sm:py-5 bg-cyan-500 text-black font-black uppercase tracking-widest hover:bg-cyan-400 transition-all hover:scale-105 active:scale-95 mono shadow-[0_0_40px_rgba(0,243,255,0.4)] group relative overflow-hidden z-50 cursor-pointer pointer-events-auto touch-manipulation"
           >
             <span className="relative flex items-center gap-2 z-10 pointer-events-none">
                CONTACT INFO <ShieldCheck size={18} className="animate-pulse" />
@@ -221,7 +221,7 @@ export const Hero: React.FC<HeroProps> = ({ onContactOpen }) => {
           </button>
           <a 
             href="mailto:mdalmursalin123@gmail.com"
-            className="px-10 py-5 border-2 border-cyan-500/50 text-cyan-400 font-black uppercase tracking-widest hover:bg-cyan-500/10 transition-all mono backdrop-blur-md relative z-50 flex items-center justify-center"
+            className="px-8 sm:px-10 py-4 sm:py-5 border-2 border-cyan-500/50 text-cyan-400 font-black uppercase tracking-widest hover:bg-cyan-500/10 transition-all mono backdrop-blur-md relative z-50 flex items-center justify-center cursor-pointer pointer-events-auto touch-manipulation"
           >
             PING_OPERATOR
           </a>
@@ -236,9 +236,10 @@ export const Hero: React.FC<HeroProps> = ({ onContactOpen }) => {
         {/* INTERACTION SHIELD: High-priority click layer */}
         {!isRevealed && !isDecrypting && (
           <div 
-            onDoubleClick={handleReveal}
+            onClick={handleReveal}
+            onTouchEnd={handleReveal}
             className="absolute inset-0 z-[250] cursor-pointer"
-            title="Double Click to Reveal Identity"
+            title="Tap / click to reveal identity"
           />
         )}
 
@@ -267,16 +268,6 @@ export const Hero: React.FC<HeroProps> = ({ onContactOpen }) => {
                  alt="Operator Identity" 
                  className="w-full h-full object-cover"
                />
-               {/* Close Button - Enhanced Hitbox and Stack */}
-               <div className="absolute top-6 right-6 z-[300]">
-                 <button 
-                   onClick={handleCloseIdentity}
-                   className="w-16 h-16 bg-red-600 border-[3px] border-white text-white hover:bg-red-500 hover:scale-110 transition-all rounded-full shadow-[0_0_50px_rgba(255,0,0,0.8)] active:scale-90 flex items-center justify-center group/close cursor-pointer pointer-events-auto"
-                   aria-label="Close"
-                 >
-                   <X size={32} strokeWidth={4} className="group-hover/close:rotate-90 transition-transform duration-300" />
-                 </button>
-               </div>
                {/* Identity Overlay Label */}
                <div className="absolute bottom-0 left-0 w-full p-8 bg-gradient-to-t from-black via-black/40 to-transparent">
                   <div className="mono text-white font-black text-xl uppercase tracking-tighter italic">MURSALIN_SEC_CORE</div>
