@@ -205,16 +205,17 @@ export const Hero: React.FC<HeroProps> = ({ onContactOpen }) => {
         </div>
 
         <div className="flex flex-wrap gap-4 sm:gap-6 pt-6">
+          {/* Make entire CONTACT INFO box reliably clickable on desktop & mobile */}
           <button 
-            onClick={(e) => {
+            onClick={() => onContactOpen()}
+            onTouchEnd={(e) => {
               e.preventDefault();
-              e.stopPropagation();
               onContactOpen();
             }}
             type="button"
-            className="px-8 sm:px-10 py-4 sm:py-5 bg-cyan-500 text-black font-black uppercase tracking-widest hover:bg-cyan-400 transition-all hover:scale-105 active:scale-95 mono shadow-[0_0_40px_rgba(0,243,255,0.4)] group relative overflow-hidden z-50 cursor-pointer pointer-events-auto touch-manipulation"
+            className="px-8 sm:px-10 py-4 sm:py-5 bg-cyan-500 text-black font-black uppercase tracking-widest hover:bg-cyan-400 transition-all hover:scale-105 active:scale-95 mono shadow-[0_0_40px_rgba(0,243,255,0.4)] group relative overflow-hidden z-50 cursor-pointer pointer-events-auto touch-manipulation inline-flex items-center justify-center"
           >
-            <span className="relative flex items-center gap-2 z-10 pointer-events-none">
+            <span className="relative flex items-center gap-2 z-10">
                CONTACT INFO <ShieldCheck size={18} className="animate-pulse" />
             </span>
             <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 z-0 pointer-events-none" />
